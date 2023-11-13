@@ -1,0 +1,250 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1",
+    "title": "",
+    "description": "",
+    "contact": {}
+  },
+  "servers": [
+    {
+      "url": "https://api3.loopring.io/api/v3"
+    }
+  ],
+  "paths": {
+    "/stake/products": {
+      "get": {
+        "operationId": "LoopringStakingProducts",
+        "description": "Pulls back the status of the Loopring(LRC) staking pool on Loopring Layer 2 as of the previous day. Updated at midnight UTC each day. The staking APR is returned with a decimal precision, take it into account when displaying to the user.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/markets"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "summary": "Returns the current Loopring Staking details."
+      }
+    },
+    "/timestamp": {
+      "get": {
+        "summary": "Returns the current relayer time in milliseconds.",
+        "description": "",
+        "parameters": [],
+        "operationId": "RelayerCurrentTime",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "timestamp": {
+                      "nullable": false,
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/exchange/info": {
+      "get": {
+        "summary": "Returns info about the Loopring DEX.",
+        "description": "",
+        "parameters": [],
+        "operationId": "ExchangeInfo",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "chainId": {
+                      "nullable": false,
+                      "type": "integer"
+                    },
+                    "exchangeAddress": {
+                      "nullable": false,
+                      "type": "number"
+                    },
+                    "depositAddress": {
+                      "nullable": false,
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/exchange/tokens": {
+      "get": {
+        "summary": "Retreives token info for all tokens on the Loopring DEX.",
+        "description": "Returns detailed info for all tokens on the DEX such as the token ID, its ERC20 contract address, the token decimals, the precision used, various limits and if the token is enabled for deposits and withdrawals. Take into account the decimals and precision used when conveying information to users.",
+        "externalDocs": {
+          "url": "https://docs-protocol.loopring.io/resources/common-info/get-token-info"
+        },
+        "parameters": [],
+        "operationId": "TokenInfo",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/token"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {},
+    "schemas": {
+      "markets": {
+        "properties": {
+          "tokenId": {
+            "nullable": false,
+            "type": "integer"
+          },
+          "symbol": {
+            "nullable": false,
+            "type": "string"
+          },
+          "address": {
+            "nullable": false,
+            "type": "number"
+          },
+          "decimals": {
+            "nullable": false,
+            "type": "integer"
+          },
+          "status": {
+            "nullable": false,
+            "type": "integer"
+          },
+          "apr": {
+            "nullable": false,
+            "type": "number"
+          },
+          "precision": {
+            "nullable": false,
+            "type": "integer"
+          },
+          "staked": {
+            "nullable": false,
+            "type": "number"
+          },
+          "rewardPeriod": {
+            "nullable": false,
+            "type": "number"
+          },
+          "minAmount": {
+            "nullable": false,
+            "type": "number"
+          },
+          "maxAmount": {
+            "nullable": false,
+            "type": "number"
+          }
+        }
+      },
+      "token": {
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "tokenId": {
+            "type": "integer"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "decimals": {
+            "type": "integer"
+          },
+          "precision": {
+            "type": "integer"
+          },
+          "precisionForOrder": {
+            "type": "integer"
+          },
+          "orderAmounts": {
+            "object": {
+              "properties": {
+                "minimum": {
+                  "type": "number"
+                },
+                "maximum": {
+                  "type": "number"
+                },
+                "dust": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "luckyTokenAmounts": {
+            "object": {
+              "properties": {
+                "minimum": {
+                  "type": "number"
+                },
+                "maximum": {
+                  "type": "number"
+                },
+                "dust": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "fastWithdrawLimit": {
+            "type": "number"
+          },
+          "gasAmounts": {
+            "object": {
+              "properties": {
+                "distribution": {
+                  "type": "number"
+                },
+                "deposit": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "links": {},
+    "callbacks": {}
+  },
+  "security": []
+}
