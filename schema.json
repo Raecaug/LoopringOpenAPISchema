@@ -15,7 +15,7 @@
     "/stake/products": {
       "get": {
         "operationId": "LoopringStakingProducts",
-        "description": "Pulls back the status of the Loopring(LRC) staking pool on Loopring Layer 2 as of the previous day. Updated at midnight UTC each day. The staking APR is returned with a decimal precision, take it into account when displaying to the user.",
+        "description": "Pulls back the status of the Loopring(LRC) staking pool on Loopring Layer 2 as of the previous day. Updated at midnight UTC each day. ",
         "parameters": [],
         "responses": {
           "200": {
@@ -94,7 +94,7 @@
     "/exchange/tokens": {
       "get": {
         "summary": "Retreives token info for all tokens on the Loopring DEX.",
-        "description": "Returns detailed info for all tokens on the DEX such as the token ID, its ERC20 contract address, the token decimals, the precision used, various limits and if the token is enabled for deposits and withdrawals. Take into account the decimals and precision used when conveying information to users.",
+        "description": "",
         "externalDocs": {
           "url": "https://docs-protocol.loopring.io/resources/common-info/get-token-info"
         },
@@ -104,9 +104,55 @@
           "200": {
             "description": "Success",
             "content": {
+              "change/me": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mix/markets": {
+      "get": {
+        "summary": "Get info on Loopring supported trading pairs.",
+        "description": "",
+        "externalDocs": {
+          "url": "https://docs-protocol.loopring.io/resources/common-info/get-markets-info"
+        },
+        "parameters": [],
+        "operationId": "MarketsInfo",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/token"
+                  "properties": {
+                    "market": {
+                      "type": "string"
+                    },
+                    "baseTokenId": {
+                      "type": "integer"
+                    },
+                    "quoteTokenId": {
+                      "type": "integer"
+                    },
+                    "precisionForPrice": {
+                      "type": "integer"
+                    },
+                    "orderbookAggLevels": {
+                      "type": "integer"
+                    },
+                    "enabled": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "createdAt": {
+                      "type": "number"
+                    }
+                  }
                 }
               }
             }
@@ -163,82 +209,6 @@
           "maxAmount": {
             "nullable": false,
             "type": "number"
-          }
-        }
-      },
-      "token": {
-        "properties": {
-          "type": {
-            "type": "string"
-          },
-          "tokenId": {
-            "type": "integer"
-          },
-          "symbol": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          },
-          "decimals": {
-            "type": "integer"
-          },
-          "precision": {
-            "type": "integer"
-          },
-          "precisionForOrder": {
-            "type": "integer"
-          },
-          "orderAmounts": {
-            "object": {
-              "properties": {
-                "minimum": {
-                  "type": "number"
-                },
-                "maximum": {
-                  "type": "number"
-                },
-                "dust": {
-                  "type": "number"
-                }
-              }
-            }
-          },
-          "luckyTokenAmounts": {
-            "object": {
-              "properties": {
-                "minimum": {
-                  "type": "number"
-                },
-                "maximum": {
-                  "type": "number"
-                },
-                "dust": {
-                  "type": "number"
-                }
-              }
-            }
-          },
-          "fastWithdrawLimit": {
-            "type": "number"
-          },
-          "gasAmounts": {
-            "object": {
-              "properties": {
-                "distribution": {
-                  "type": "number"
-                },
-                "deposit": {
-                  "type": "number"
-                }
-              }
-            }
-          },
-          "enabled": {
-            "type": "boolean"
           }
         }
       }
